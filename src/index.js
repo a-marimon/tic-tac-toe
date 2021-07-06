@@ -2,54 +2,110 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Square(props) {
+const Square = (props) => {
   return (
     <button className="square" onClick={props.onClick}>
       {props.value}
     </button>
   );
 }
+
+const Score = (props) => {
+  const winner = calculateWinner(props.squares)
+  let xWins = 0
+  let xLoses = 0
+
+  if (winner && winner === 'X') {
+    xWins = xWins + 1
+  } else if (winner && winner === 'O') {
+    xLoses = xLoses + 1
+  }
+
+  return (
+    <div className="score-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Wins</th>
+            <th>Loses</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>X</td>
+            <td>{xWins}</td>
+            <td>{xLoses}</td>
+          </tr>
+          <tr>
+            <td>O</td>
+            <td>{xLoses}</td>
+            <td>{xWins}</td>
+          </tr>
+          </tbody>
+      </table>
+    </div>
+  )
+}
   
-class Board extends React.Component {
-  renderSquare(i) {
-    return <Square 
-              value={this.props.squares[i]}
-              onClick={() => this.props.onClick(i)}
-            />;
+const Board = (props) => {
+  const winner = calculateWinner(props.squares)
+  let status
+
+  if(winner) {
+    status = 'Winner' + winner
+  } else {
+    status = `Next player: ${props.xIsNext ? 'X' : 'O'}`
   }
 
-  render() {
-    const winner = calculateWinner(this.props.squares)
-    let status
 
-    if(winner) {
-      status = 'Winner' + winner
-    } else {
-      status = `Next player: ${this.props.xIsNext ? 'X' : 'O'}`
-    }
-
-
-    return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+  return (
+    <div>
+      <div className="status">{status}</div>
+      <div className="board-row">
+        <Square 
+          value={props.squares[0]}
+          onClick={() => props.onClick(0)}
+        />
+        <Square 
+          value={props.squares[1]}
+          onClick={() => props.onClick(1)}
+        />
+        <Square 
+          value={props.squares[2]}
+          onClick={() => props.onClick(2)}
+        />
       </div>
-    );
-  }
+      <div className="board-row">
+        <Square 
+          value={props.squares[3]}
+          onClick={() => props.onClick(3)}
+        />
+        <Square 
+          value={props.squares[4]}
+          onClick={() => props.onClick(4)}
+        />
+        <Square 
+          value={props.squares[5]}
+          onClick={() => props.onClick(5)}
+        />
+      </div>
+      <div className="board-row">
+        <Square 
+          value={props.squares[6]}
+          onClick={() => props.onClick(6)}
+        />
+        <Square 
+          value={props.squares[7]}
+          onClick={() => props.onClick(7)}
+        />
+        <Square 
+          value={props.squares[8]}
+          onClick={() => props.onClick(8)}
+        />
+      </div>
+    </div>
+  );
 }
 
 class Game extends React.Component {
@@ -57,7 +113,11 @@ class Game extends React.Component {
     super(props)
     this.state = {
       squares: Array(9).fill(null),
-      xIsNext: true
+      xIsNext: true,
+      score: {
+        xWins: 0,
+        xLoses: 0
+      }
     }
   }
 
@@ -84,6 +144,7 @@ class Game extends React.Component {
             xIsNext={this.state.xIsNext}
             onClick={(i) => {this.handleClick(i)}}
           />
+          <Score squares={this.state.squares}/>
         </div>
         <div className="game-info">
           <div>{/* status */}</div>
@@ -111,7 +172,7 @@ function calculateWinner(squares) {
       return squares[a];
     }
   }
-  return null;
+  return null; 
 }
 
 // ========================================
