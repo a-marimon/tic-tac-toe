@@ -8,9 +8,9 @@ const ScoreTable = (props) => {
 
   useEffect(() => {
     if (winner && winner === 'X') {
-      setXWins(xWins + 1)
+      setXWins(xWins => xWins + 1)
     } else if (winner && winner === 'O') {
-      setXLoses(xLoses + 1)
+      setXLoses(xLoses => xLoses + 1)
     }
   }, [winner])
 
