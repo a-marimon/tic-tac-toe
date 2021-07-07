@@ -10,10 +10,10 @@ const Game = () => {
   // STATE VARIABLES
   const [squares, setSquares] = useState(Array(9).fill(null))
   const [xIsNext, setXIsNext] = useState(true)
-  // const [xWins, setXWins] = useState(0)
-  // const [xLoses, setXLoses] = useState(0)
 
-  const handleClick = ((sq, i) => {
+
+  // HANDLE CLICK will decide what should happen when a box is click in the tic-tac-toe board
+  const handleClick = (sq, i) => {
     const squares = sq.slice()
     
     if (calculateWinner(squares) || squares[i]) {
@@ -23,7 +23,13 @@ const Game = () => {
     squares[i] = xIsNext ? 'X' : "O"
     setSquares(squares)
     setXIsNext(!xIsNext)
-  })
+  }
+
+  // RESET BOARD will reset all square values to null
+  const resetBoard = () => {
+    setSquares(Array(9).fill(null))
+    setXIsNext(true)
+  }
     
   return (
     <div className="game">
@@ -37,11 +43,13 @@ const Game = () => {
       </div>
       <div className="game-info">
         <ScoreTable winner={calculateWinner(squares)}/>
+        <button  onClick={()=>{resetBoard()}}>Reset</button>
       </div>
     </div>
   )
 }
 
+// CALCULATE WINNER will compare the current value of each square on the board and dictate the game status
 const  calculateWinner = (squares) => {
   const lines = [
     [0, 1, 2],
