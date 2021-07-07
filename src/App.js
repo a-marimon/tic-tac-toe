@@ -11,7 +11,6 @@ const Game = () => {
   const [squares, setSquares] = useState(Array(9).fill(null))
   const [xIsNext, setXIsNext] = useState(true)
 
-
   // HANDLE CLICK will decide what should happen when a box is click in the tic-tac-toe board
   const handleClick = (sq, i) => {
     const squares = sq.slice()
