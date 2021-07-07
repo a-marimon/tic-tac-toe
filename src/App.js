@@ -10,6 +10,7 @@ const Game = () => {
   // STATE VARIABLES
   const [squares, setSquares] = useState(Array(9).fill(null))
   const [xIsNext, setXIsNext] = useState(true)
+  const [xMoveFirst, setXMoveFirst] = useState(true)
 
   // HANDLE CLICK will decide what should happen when a box is click in the tic-tac-toe board
   const handleClick = (sq, i) => {
@@ -27,7 +28,13 @@ const Game = () => {
   // RESET BOARD will reset all square values to null
   const resetBoard = () => {
     setSquares(Array(9).fill(null))
-    setXIsNext(true)
+    setXMoveFirst(!xMoveFirst)
+
+    if (xMoveFirst) {
+      setXIsNext(false)
+    }else {
+      setXIsNext(true)
+    }
   }
     
   return (
