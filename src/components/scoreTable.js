@@ -1,14 +1,18 @@
+import { useState, useEffect } from 'react'
 
 const ScoreTable = (props) => {
-  const winner = props.winner
-  let xWins = 0
-  let xLoses = 0
+  const [xWins, setXWins] = useState(0)
+  const [xLoses, setXLoses] = useState(0)
 
-  if (winner && winner === 'X') {
-    xWins = xWins + 1
-  } else if (winner && winner === 'O') {
-    xLoses = xLoses + 1
-  }
+  const winner = props.winner
+
+  useEffect(() => {
+    if (winner && winner === 'X') {
+      setXWins(xWins + 1)
+    } else if (winner && winner === 'O') {
+      setXLoses(xLoses + 1)
+    }
+  }, [winner])
 
   return (
     <div className="score-table">
